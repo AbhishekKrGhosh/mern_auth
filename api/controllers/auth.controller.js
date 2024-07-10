@@ -49,7 +49,7 @@ export const google = async(req, res, next)=>{
             await newUser.save()
             const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET)
             const {password: hashedPassword2, ...rest} = newUser._doc
-            const expiryTime = new Date(Date.now() + 360000)
+            const expiryTime = new Date(Date.now() + 3600000)
             res.cookie('access_token', token, { httpOnly:true, expires: expiryTime}).status(200).json(rest)
         }
     } catch (error) {
