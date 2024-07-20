@@ -6,8 +6,23 @@ import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
 import { Header } from "./components/Header"
 import PrivateRoute from "./components/PrivateRoute"
+import { useDispatch } from 'react-redux';
+import { isCookieExpired } from './utils/checkCookie';
+import { signOut } from './redux/user/userSlice';
+import { useEffect } from "react"
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isCookieExpired()) {
+        dispatch(signOut());
+      }
+    }, 1000 * 60);
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
   return (
     <BrowserRouter>
     <Header/>
